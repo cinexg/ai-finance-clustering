@@ -1,0 +1,37 @@
+# --- Dependencies ---
+node_modules/
+backend/venv/
+.venv/
+env/
+venv/
+
+# --- Next.js / React ---
+.next/
+out/
+build/
+dist/
+*.tsbuildinfo
+
+# --- Python ---
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+backend/data/*.csv
+
+# --- Database ---
+# We ignore the actual .db file so you don't leak personal spends
+*.db
+*.sqlite3
+
+# --- Environment / Secrets ---
+.env
+.env.local
+.env.*.local
+
+# --- OS / IDE ---
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
