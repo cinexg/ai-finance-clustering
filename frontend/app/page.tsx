@@ -49,15 +49,22 @@ export default function DashboardPage() {
   const [modalTarget, setModalTarget] = useState<Transaction | null | undefined>(undefined);
 
   const fetchClusters = useCallback(async () => {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 20_000);
     try {
-      const res = await fetch(`${BASE_URL}/api/clusters`);
+      const res = await fetch(`${BASE_URL}/api/clusters`, { signal: controller.signal });
       if (!res.ok) throw new Error(`Server error: ${res.status} ${res.statusText}`);
       const data: Transaction[] = await res.json();
       setTransactions(data);
       setError(null);
     } catch (err) {
-      setError(err instanceof Error ? err.message : "An unknown error occurred.");
+      if (err instanceof Error && err.name === "AbortError") {
+        setError("Request timed out. The backend may be waking up on Render — please retry in a moment.");
+      } else {
+        setError(err instanceof Error ? err.message : "An unknown error occurred.");
+      }
     } finally {
+      clearTimeout(timeoutId);
       setLoading(false);
     }
   }, []);
@@ -117,6 +124,12 @@ export default function DashboardPage() {
               {BASE_URL}
             </code>
           </p>
+          <button
+            onClick={() => { setLoading(true); setError(null); fetchClusters(); }}
+            className="mt-4 rounded-xl bg-violet-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-violet-700"
+          >
+            Retry
+          </button>
         </div>
       </div>
     );
