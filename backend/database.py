@@ -3,8 +3,6 @@ import uuid
 from contextlib import contextmanager
 from pathlib import Path
 
-from data_generator import generate_transactions
-
 DB_PATH = Path(__file__).parent / "finance.db"
 
 # Columns that must never be set to NULL via a PATCH
@@ -25,7 +23,7 @@ def _get_conn():
 
 
 def init_db() -> None:
-    """Create the transactions table, migrate schema, and seed if empty."""
+    """Create the transactions table if it doesn't exist."""
     with _get_conn() as conn:
         conn.execute(
             """
@@ -43,17 +41,6 @@ def init_db() -> None:
             conn.execute("ALTER TABLE transactions ADD COLUMN manual_category TEXT")
         except sqlite3.OperationalError:
             pass  # Column already exists
-
-        row_count = conn.execute("SELECT COUNT(*) FROM transactions").fetchone()[0]
-        if row_count == 0:
-            seed_data = generate_transactions(200)
-            conn.executemany(
-                "INSERT INTO transactions (id, date, vendor, amount) VALUES (?, ?, ?, ?)",
-                [
-                    (tx["transaction_id"], tx["date"], tx["vendor"], tx["amount"])
-                    for tx in seed_data
-                ],
-            )
 
 
 def _row_to_dict(row: sqlite3.Row) -> dict:
