@@ -114,7 +114,7 @@ export default function DashboardPage() {
           <p className="mt-3 text-xs text-zinc-400">
             Make sure the backend is running at{" "}
             <code className="rounded bg-zinc-100 px-1 py-0.5 text-zinc-600 dark:bg-zinc-800 dark:text-zinc-300">
-              localhost:8000
+              {BASE_URL}
             </code>
           </p>
         </div>
