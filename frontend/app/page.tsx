@@ -84,7 +84,7 @@ export default function DashboardPage() {
   const availableCategories = useMemo(() => {
     const cats = new Set<string>();
     for (const tx of transactions) {
-      cats.add(tx.cluster_name);
+      if (tx.cluster_name) cats.add(tx.cluster_name); // Safety check added here
       if (tx.manual_category) cats.add(tx.manual_category);
     }
     return Array.from(cats).sort();

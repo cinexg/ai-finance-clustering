@@ -36,19 +36,19 @@ export default function TransactionModal({
   onClose,
   onSuccess,
 }: TransactionModalProps) {
-  const isEdit = transaction !== undefined;
+  const isEdit = !!transaction;
 
   const [form, setForm] = useState<ModalForm>(EMPTY_FORM);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    if (isEdit) {
+    if (isEdit && transaction) {
       setForm({
-        date: transaction.date ?? "",
-        vendor: transaction.vendor ?? "",
-        amount: transaction.amount ?? 0,
-        manual_category: transaction.manual_category ?? null,
+        date: transaction?.date ?? "",
+        vendor: transaction?.vendor ?? "",
+        amount: transaction?.amount ?? 0,
+        manual_category: transaction?.manual_category ?? null,
       });
     } else {
       setForm(EMPTY_FORM);
@@ -70,7 +70,7 @@ export default function TransactionModal({
     setError(null);
 
     try {
-      const url = isEdit
+      const url = isEdit && transaction
         ? `${BASE_URL}/api/transactions/${transaction.transaction_id}`
         : `${BASE_URL}/api/transactions`;
 
