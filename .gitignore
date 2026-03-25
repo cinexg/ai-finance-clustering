@@ -35,3 +35,6 @@ backend/data/*.csv
 Thumbs.db
 .vscode/
 .idea/
+
+.claudeignore
+CLAUDE.md

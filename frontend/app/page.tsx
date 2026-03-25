@@ -13,7 +13,7 @@ import TransactionModal from "@/components/TransactionModal";
 import ThemeToggle from "@/components/ThemeToggle";
 import CurrencySelect from "@/components/CurrencySelect";
 
-const BASE_URL = "http://localhost:8000";
+const BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
 
 const CURRENCY_OPTIONS = [
   { code: "USD", label: "US Dollar",   symbol: "$" },

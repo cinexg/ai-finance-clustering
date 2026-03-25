@@ -7,7 +7,7 @@ import type { Transaction } from "@/types";
 import DatePicker from "@/components/DatePicker";
 import CategorySelect from "@/components/CategorySelect";
 
-const BASE_URL = "http://localhost:8000";
+const BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
 
 interface TransactionModalProps {
   transaction?: Transaction;   // undefined = add mode, populated = edit mode
