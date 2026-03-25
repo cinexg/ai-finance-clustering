@@ -72,6 +72,8 @@ def get_transactions() -> list[dict]:
 def get_clusters() -> list[dict]:
     try:
         raw = get_all_transactions()
+        if not raw:
+            return []
         return cluster_transactions(raw)
     except Exception as exc:
         raise HTTPException(status_code=500, detail=str(exc)) from exc

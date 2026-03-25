@@ -36,6 +36,12 @@ export default function ClusterChart({ data }: ClusterChartProps) {
       <h2 className="mb-4 text-base font-semibold text-zinc-800 dark:text-zinc-100">
         Spending by Cluster
       </h2>
+      {chartData.length === 0 && (
+        <p className="flex h-[300px] items-center justify-center text-sm text-zinc-400 dark:text-zinc-500">
+          No transactions yet
+        </p>
+      )}
+      {chartData.length > 0 && (
       <ResponsiveContainer width="100%" height={300}>
         <PieChart>
           <Pie
@@ -80,6 +86,7 @@ export default function ClusterChart({ data }: ClusterChartProps) {
           />
         </PieChart>
       </ResponsiveContainer>
+      )}
     </div>
   );
 }

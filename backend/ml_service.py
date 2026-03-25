@@ -36,6 +36,9 @@ def cluster_transactions(transactions: list[dict]) -> list[dict]:
     Clean raw transaction dicts, engineer features, run K-Means clustering,
     and return the original records augmented with `cluster_id` and `cluster_name`.
     """
+    if len(transactions) < N_CLUSTERS:
+        return transactions
+
     df = pd.DataFrame(transactions)
 
     # ------------------------------------------------------------------ #
